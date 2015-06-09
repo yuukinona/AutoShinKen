@@ -7,3 +7,12 @@ C:\Users\yuukinona\Documents\AutoShinKen\bin\Debug\AutoShinKen.pdb
 C:\Users\yuukinona\Documents\AutoShinKen\obj\Debug\AutoShinKen.exe
 C:\Users\yuukinona\Documents\AutoShinKen\obj\Debug\AutoShinKen.pdb
 C:\Users\yuukinona\Documents\AutoShinKen\obj\Debug\AutoShinKen.Form1.resources
+C:\Users\Yang\Documents\GitHub\AutoShinKen\bin\Debug\AutoShinKen.exe.config
+C:\Users\Yang\Documents\GitHub\AutoShinKen\obj\Debug\AutoShinKen.exe
+C:\Users\Yang\Documents\GitHub\AutoShinKen\obj\Debug\AutoShinKen.pdb
+C:\Users\Yang\Documents\GitHub\AutoShinKen\bin\Debug\AutoShinKen.exe
+C:\Users\Yang\Documents\GitHub\AutoShinKen\bin\Debug\AutoShinKen.pdb
+C:\Users\Yang\Documents\GitHub\AutoShinKen\obj\Debug\AutoShinKen.csprojResolveAssemblyReference.cache
+C:\Users\Yang\Documents\GitHub\AutoShinKen\obj\Debug\AutoShinKen.Form1.resources
+C:\Users\Yang\Documents\GitHub\AutoShinKen\obj\Debug\AutoShinKen.Properties.Resources.resources
+C:\Users\Yang\Documents\GitHub\AutoShinKen\obj\Debug\AutoShinKen.csproj.GenerateResource.Cache

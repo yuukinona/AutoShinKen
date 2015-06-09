@@ -30,6 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.richTextBox8 = new System.Windows.Forms.RichTextBox();
+            this.button10 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button8 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -41,6 +43,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.richTextBox6 = new System.Windows.Forms.RichTextBox();
             this.richTextBox5 = new System.Windows.Forms.RichTextBox();
@@ -48,12 +51,11 @@
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.richTextBox8 = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -81,9 +83,28 @@
             this.tabPage1.Text = "Script";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // richTextBox8
+            // 
+            this.richTextBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox8.Location = new System.Drawing.Point(0, 250);
+            this.richTextBox8.Name = "richTextBox8";
+            this.richTextBox8.Size = new System.Drawing.Size(292, 40);
+            this.richTextBox8.TabIndex = 3;
+            this.richTextBox8.Text = "";
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(368, 151);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(150, 100);
+            this.button10.TabIndex = 2;
+            this.button10.Text = "STOP";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // richTextBox1
             // 
-            this.richTextBox1.Font = new System.Drawing.Font("Arial Narrow", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.Location = new System.Drawing.Point(0, 1);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(292, 250);
@@ -189,6 +210,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.pictureBox1);
             this.tabPage3.Controls.Add(this.richTextBox7);
             this.tabPage3.Controls.Add(this.richTextBox6);
             this.tabPage3.Controls.Add(this.richTextBox5);
@@ -203,6 +225,15 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Repair";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(261, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(330, 220);
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
             // richTextBox7
             // 
@@ -255,32 +286,13 @@
             // button9
             // 
             this.button9.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button9.Location = new System.Drawing.Point(365, 86);
+            this.button9.Location = new System.Drawing.Point(261, 226);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(120, 120);
+            this.button9.Size = new System.Drawing.Size(120, 68);
             this.button9.TabIndex = 0;
             this.button9.Text = "Detect Repair Tank";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(368, 151);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(150, 100);
-            this.button10.TabIndex = 2;
-            this.button10.Text = "STOP";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
-            // 
-            // richTextBox8
-            // 
-            this.richTextBox8.Font = new System.Drawing.Font("Arial Narrow", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox8.Location = new System.Drawing.Point(0, 250);
-            this.richTextBox8.Name = "richTextBox8";
-            this.richTextBox8.Size = new System.Drawing.Size(292, 40);
-            this.richTextBox8.TabIndex = 3;
-            this.richTextBox8.Text = "";
             // 
             // Form1
             // 
@@ -294,6 +306,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -322,6 +335,7 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.RichTextBox richTextBox8;
+        private System.Windows.Forms.PictureBox pictureBox1;
 
     }
 }

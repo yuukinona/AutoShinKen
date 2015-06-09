@@ -49,52 +49,53 @@ namespace AutoShinKen
         } 
 
         public static void MouseClick(int x, int y, IntPtr handle, string Class)
-{
-    StringBuilder className = new StringBuilder(100);
-    while (className.ToString() != Class)
-    {
-        handle = GetWindow(handle, 5);
-        GetClassName(handle, className, className.Capacity);
-    }
+        {
+            StringBuilder className = new StringBuilder(100);
+            while (className.ToString() != Class)
+            {
+                handle = GetWindow(handle, 5);
+                GetClassName(handle, className, className.Capacity);
+            }
 
-    IntPtr lParam = (IntPtr)((y << 16) | x);
-    IntPtr wParam = IntPtr.Zero;
-    const uint downCode = 0x201;
-    const uint upCode = 0x202;
-    SendMessage(handle, downCode, wParam, lParam);
-    SendMessage(handle, upCode, wParam, lParam);
-}
+            IntPtr lParam = (IntPtr)((y << 16) | x);
+            IntPtr wParam = IntPtr.Zero;
+            const uint downCode = 0x201;
+            const uint upCode = 0x202;
+            SendMessage(handle, downCode, wParam, lParam);
+            SendMessage(handle, upCode, wParam, lParam);
+        }
 
         GetWindowScreenShot sc;
         PageJudgement PageJudge;
         int WidthOfBar, HeightOfTitle;
         Bitmap bmp;
         byte[] RepairTank=new byte[7]{0,0,0,0,0,0,0};
+        int SysTickCount=0;
         Timer time1;
         Timer SystemTimer;
-        const uint WM_MOUSEMOVE = 0x0200;
-        const uint WM_LBUTTONDOWN = 0x0201;
-        const uint WM_LBUTTONUP = 0x0202;
-        const uint WM_LBUTTONDBLCLK = 0x0203;
-
-        [DllImport("User32.Dll", EntryPoint = "PostMessageA")]
-        static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
         IntPtr a=IntPtr.Zero;
 
         [DllImport("user32.dll", EntryPoint = "FindWindowEx", CharSet = CharSet.Auto)]
         static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
-        private static int MAKEPARAM(int l, int h)
-        {
-            return ((l & 0xffff) | (h << 0x10));
-        }
-        IntPtr tHwnd;
-        private void Mouse_Click(IntPtr xx,Point pos)
-        {
-            PostMessage(xx, WM_LBUTTONDOWN, 0, MAKEPARAM(pos.X + WidthOfBar, pos.Y + HeightOfTitle));
-            PostMessage(xx, WM_LBUTTONUP, 0, MAKEPARAM(pos.X + WidthOfBar, pos.Y + HeightOfTitle));
-            PostMessage(xx, WM_LBUTTONUP, 0, MAKEPARAM(pos.X + WidthOfBar, pos.Y + HeightOfTitle));
 
+        IntPtr Tweb;
+
+        #region Clear_Memory
+        [DllImport("kernel32.dll", EntryPoint = "SetProcessWorkingSetSize")]
+        public static extern int SetProcessWorkingSetSize(IntPtr process, int minSize, int maxSize);
+        /// <summary>
+        /// 释放内存
+        /// </summary>
+        public static void ClearMemory()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
+            }
         }
+        #endregion
 
         static List<IntPtr> GetAllChildrenWindowHandles(IntPtr hParent,  int maxCount)
         {
@@ -113,6 +114,15 @@ namespace AutoShinKen
             return result;
         }
 
+        private void InitialData()
+        {
+            sc = new GetWindowScreenShot(WidthOfBar, HeightOfTitle);
+            List<IntPtr> children = GetAllChildrenWindowHandles(a, 100);
+            for (int i = 0; i < children.Count; ++i)
+                this.richTextBox1.Text += (children[i].ToString() + ",");
+            Tweb = children[0];
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -121,7 +131,18 @@ namespace AutoShinKen
             HeightOfTitle = this.Height - this.ClientRectangle.Height - WidthOfBar;
 
             a= GetWindowS.FindWindowsWithText("しんけん！");;
-            if (a == IntPtr.Zero) MessageBox.Show("1");
+            if (a == IntPtr.Zero)
+            {
+                MessageBox.Show("No ShinKenViewer is running!");
+                System.Environment.Exit(0);
+                this.Close();
+                //MessageBox.Show("1");
+            }
+            else
+            {
+                InitialData();
+                
+            }
             //tHwnd = FindWindowEx(a, IntPtr.Zero, null, "asdfghj");
             //if (tHwnd != IntPtr.Zero) MessageBox.Show("1");
             PageJudge = new PageJudgement();
@@ -132,8 +153,7 @@ namespace AutoShinKen
         }
 
         private void snapshot()
-        {
-            sc = new GetWindowScreenShot(WidthOfBar, HeightOfTitle);            
+        {                        
             bmp=sc.GetWindowCapture(a);
             return;
         }
@@ -191,7 +211,19 @@ namespace AutoShinKen
         
         private void SysTick(object sender, EventArgs e)
         {
-            this.richTextBox8.Text = "                "+DateTime.Now.ToString();
+            SysTickCount++;
+            if (SysTickCount == 500)
+            {
+                this.SystemTimer.Dispose();
+                this.SystemTimer = new Timer();
+                this.SystemTimer.Interval = 100;
+                this.SystemTimer.Tick += new System.EventHandler(this.SysTick);
+                this.SystemTimer.Start();
+            }
+            snapshot();
+            this.pictureBox1.Image = new Bitmap(bmp, 330, 220);
+            ClearMemory();
+            //this.richTextBox8.Text = "                "+DateTime.Now.ToString();
             return;
         }
 
@@ -202,9 +234,7 @@ namespace AutoShinKen
         /// <param name="e"></param>
         private void button8_Click(object sender, EventArgs e)
         {
-            List<IntPtr> children = GetAllChildrenWindowHandles(a, 100);
-            for (int i = 0; i < children.Count; ++i)
-                this.richTextBox1.Text+=(children[i].ToString()+",");
+            
             if (1== 0)
             {
                 MessageBox.Show("Please go to Reapir Page to Initialize the Repair tank!");
@@ -214,10 +244,10 @@ namespace AutoShinKen
                 for (int j = 100; j <= 500; j++)
                     Mouse_Click(new Point(i, j));*/
             //Mouse_Click(children[0], new Point(950, 31));
-            _Click(children[0], new Point(57, 635));
+            _Click(Tweb, new Point(57, 635));
             
             this.time1 = new Timer();
-            this.time1.Interval = 100;
+            this.time1.Interval = 1000;
             this.time1.Tick += new System.EventHandler(this.Ticking);
             time1.Start();
             
@@ -369,6 +399,13 @@ namespace AutoShinKen
                     RepairTank[6] = 1;
                 }
             }
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            int Cx = (int)((e.Location.X * 960) / 330);
+            int Cy = (int)((e.Location.Y * 640) / 220);
+            _Click(Tweb, new Point(Cx, Cy));
         }
 
         

@@ -99,17 +99,16 @@ namespace AutoShinKen
             public int right;
             public int bottom;
         }
+        private Bitmap bmp;
 
-        private Bitmap CutImage(Image img, Rectangle rect)
+        private void CutImage(Image img, Rectangle rect)
         {
-            Bitmap b = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(b);
+            bmp = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(bmp);
             g.DrawImage(img, 0, 0, rect, GraphicsUnit.Pixel);
             g.Dispose();
-            return b;
-            b.Dispose();
+            return;
         }
-
         public  Bitmap GetWindowCapture(IntPtr hWnd)
         {
             IntPtr hscrdc = GetWindowDC(hWnd);
@@ -122,11 +121,12 @@ namespace AutoShinKen
             IntPtr hmemdc = CreateCompatibleDC(hscrdc);
             SelectObject(hmemdc, hbitmap);
             PrintWindow(hWnd, hmemdc, 0);
-            Bitmap bmp = Bitmap.FromHbitmap(hbitmap);
-            Bitmap outmp = CutImage(bmp, new Rectangle(left, top, 960, 640));
+            Bitmap kbmp = Bitmap.FromHbitmap(hbitmap);
+            CutImage(kbmp, new Rectangle(left, top, 960, 640));
             DeleteDC(hscrdc);//删除用过的对象
             DeleteDC(hmemdc);//删除用过的对象
-            return outmp;
+            kbmp.Dispose();
+            return bmp;
         }
 
         
