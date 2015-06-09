@@ -79,6 +79,7 @@ namespace AutoShinKen
         static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 
         IntPtr Tweb;
+        GetRepairTime getrepairTIME=new GetRepairTime();
 
         #region Clear_Memory
         [DllImport("kernel32.dll", EntryPoint = "SetProcessWorkingSetSize")]
@@ -263,6 +264,7 @@ namespace AutoShinKen
                 for (int i = 1; i <= 6; i++)
                     if (RepairTank[i] == 2)
                     {
+
                         this.richTextBox1.Text = PageJudgement.PageNo.Repairing_Page.ToString() + "\n";
                         flag = false;
                         break;
@@ -291,6 +293,38 @@ namespace AutoShinKen
         private void button9_Click(object sender, EventArgs e)
         {
             CheckRepair();
+            SetRepairingTime();
+        }
+
+        private void SetRepairingTime()
+        {
+            for (int i = 1; i <= 1; i++)
+            {
+                if (RepairTank[i] == 2)
+                {
+                    int h = getNumber(bmp, 228, 198) * 10 + getNumber(bmp, 238, 198);
+                    int m = getNumber(bmp, 228 + 24, 198) * 10 + getNumber(bmp, 238 + 34, 198);
+                    int s = getNumber(bmp, 228 + 48, 198) * 10 + getNumber(bmp, 238 + 58, 198);
+                    richTextBox2.Text += ("\n" + h.ToString() + ":" + m.ToString() + ":" + s.ToString());
+                }
+            }
+        }
+
+        private int getNumber(Bitmap numbmp,int x,int y)
+        {
+            int[,] square = new int[9, 12];
+            for (int t = 0; t <= 9; t++)
+            {
+                for (int j = 0; j <= 11; j++)
+                    for (int i = 0; i <= 8; i++)
+                        if (!(numbmp.GetPixel(i + x, j + y).R > 200 && numbmp.GetPixel(i + x, j + y).G > 200 && numbmp.GetPixel(i + x, j + y).B > 200))
+                        {
+                            square[i, j] = 1;
+                        }
+                        else square[i, j] = 0;
+                return getrepairTIME.JudgeNumberByImage(square);
+            }
+            return 0;
         }
 
         private void CheckRepair()

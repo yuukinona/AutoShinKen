@@ -52,6 +52,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GetForground.cs" />
+    <Compile Include="GetRepairTime.cs" />
     <Compile Include="GetWindowS.cs" />
     <Compile Include="GetWindowScreenShot.cs" />
     <Compile Include="PageJudgement.cs" />
